@@ -231,7 +231,7 @@ function criaCanos() {
                         }
                     par.canoChao = {
                         x: canoChaoX,
-                        y: canoCeuY,
+                        y: canoChaoY,
                     }
 
                 }
@@ -239,11 +239,10 @@ function criaCanos() {
 
         },
         temColisaoComOPassaro(par) {
-            //console.log(globais)
             const cabecaDoPassaro = globais.flappyBird.y
             const peDoPassaro = globais.flappyBird.y + globais.flappyBird.altura;
-            if (globais.flappyBird.x + globais.flappyBird.largura - 5 >= par.x) {
-                //console.log("Passarinho passou cano");
+            
+            if ((globais.flappyBird.x + globais.flappyBird.largura) >= par.x) {
                 if (cabecaDoPassaro <= par.canoCeu.y) {
                     return true;
                 }
