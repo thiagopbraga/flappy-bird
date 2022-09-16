@@ -76,7 +76,9 @@ const flappyBird = {
         // Atualiza o nosso flappy bird
         flappyBird.y = flappyBird.y + flappyBird.velocidade;
     },
-
+    pula() {
+        flappyBird.velocidade = -5;
+    },
     desenha() {
         contexto.drawImage(
             sprites,
@@ -88,13 +90,78 @@ const flappyBird = {
     }
 }
 
-function loop() {
-    planoDeFundo.desenha(); // desenha primeiro o plano de fundo
-    chao.desenha(); 
-    flappyBird.atualiza(); // atualiza o pássaro
-    flappyBird.desenha(); // desenha o pássaro por cima do plano de fundo
+// mensagem de início
+const mensagemInicio = {
+    sX: 134,
+    sY: 0,
+    w: 174,
+    h: 152,
+    x: (canvas.width / 2) - 174 / 2,
+    y: 50,
+    desenha() {
+        contexto.drawImage(
+            sprites,
+            mensagemInicio.sX, mensagemInicio.sY,
+            mensagemInicio.w, mensagemInicio.h,
+            mensagemInicio.x, mensagemInicio.y,
+            mensagemInicio.w, mensagemInicio.h,
+        );
+    }
+}
 
+/**
+ * Telas
+ */
+
+let telaAtiva = {};
+
+function mudaParaTela(novaTela) {
+    telaAtiva = novaTela;
+}
+
+const Telas = {
+    INICIO: {
+        desenha() {
+            planoDeFundo.desenha(); // desenha primeiro o plano de fundo
+            chao.desenha(); 
+            flappyBird.desenha(); // desenha o pássaro por cima do plano de fundo
+            mensagemInicio.desenha();
+        },
+        click() {
+            mudaParaTela(Telas.JOGO);
+        },
+        atualiza() {
+
+        }
+    }
+};
+
+Telas.JOGO = {
+    desenha() {
+        planoDeFundo.desenha(); // desenha primeiro o plano de fundo
+        chao.desenha(); 
+        flappyBird.desenha(); // desenha o pássaro por cima do plano de fundo
+    },
+    click() {
+        flappyBird.pula();
+    },
+    atualiza() {
+        flappyBird.atualiza(); // atualiza o pássaro
+    }
+};
+
+function loop() {
+    telaAtiva.desenha();
+    telaAtiva.atualiza();
+    
     requestAnimationFrame(loop);
 }
 
+window.addEventListener('click', () => {
+    if( telaAtiva.click ) {
+        telaAtiva.click();
+    }
+})
+
+mudaParaTela(Telas.INICIO);
 loop()
