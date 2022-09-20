@@ -325,7 +325,6 @@ const Telas = {
         inicializa() {
             globais.flappyBird = criaFlappyBird();
             globais.chao = criaChao();
-            globais.canos = criaCanos();
         },
         desenha() {
             planoDeFundo.desenha(); // desenha primeiro o plano de fundo
@@ -338,7 +337,6 @@ const Telas = {
         },
         atualiza() {
             globais.chao.atualiza();
-            globais.canos.atualiza();
         }
     }
 };
@@ -346,6 +344,7 @@ const Telas = {
 Telas.JOGO = {
     inicializa() {
         globais.placar = criaPlacar();
+        globais.canos = criaCanos()
     },
     desenha() {
         planoDeFundo.desenha(); // desenha primeiro o plano de fundo
